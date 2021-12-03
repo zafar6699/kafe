@@ -45,7 +45,8 @@
                         <thead>
                             <tr>
                                 <th>Nomi</th>
-                                <th>Turi</th>
+                                <th>Katalog</th>
+                                <th>Soni</th>
                                 <th>Narxi</th>
                                 <th>Status</th>
                                 <th></th>
@@ -57,6 +58,7 @@
                                     {{ item.title }}
                                 </td>
                                 <td>{{ item.category.name }}</td>
+                                <td>{{ item.count }}</td>
                                 <td>
                                     {{ item.price }}
                                 </td>
@@ -70,6 +72,18 @@
 
                                 <td>
                                     <div class="table-actions">
+                                        <router-link
+                                            :to="`products/come/` + item._id"
+                                        >
+                                            <el-button
+                                                type="success"
+                                                icon="el-icon-download"
+                                                size="mini"
+                                                plain
+                                                class="edit"
+                                                >Prixod</el-button
+                                            >
+                                        </router-link>
                                         <el-button
                                             @click="openModalEdit(item)"
                                             type="primary"
@@ -132,22 +146,12 @@
                             </el-form-item>
                         </div>
                     </el-col>
-                    <el-col :span="6">
+                    <!-- <el-col :span="6">
                         <el-form-item label="Status" prop="status">
                             <el-switch v-model="product.status"></el-switch>
                         </el-form-item>
-                    </el-col>
+                    </el-col> -->
 
-                    <el-col :span="12">
-                        <el-form-item label="Mahsulot narxi" prop="price">
-                            <el-input
-                                v-mask="'############'"
-                                v-model="product.price"
-                            >
-                                <el-button slot="append">so'm</el-button>
-                            </el-input>
-                        </el-form-item>
-                    </el-col>
                     <el-col :span="12">
                         <el-form-item
                             label="Katalog"
@@ -198,22 +202,7 @@
                             </el-form-item>
                         </div>
                     </el-col>
-                    <el-col :span="6">
-                        <el-form-item label="Status" prop="status">
-                            <el-switch v-model="productEdit.status"></el-switch>
-                        </el-form-item>
-                    </el-col>
 
-                    <el-col :span="12">
-                        <el-form-item label="Mahsulot narxi" prop="price">
-                            <el-input
-                                v-mask="'############'"
-                                v-model="productEdit.price"
-                            >
-                                <el-button slot="append">so'm</el-button>
-                            </el-input>
-                        </el-form-item>
-                    </el-col>
                     <el-col :span="12">
                         <el-form-item
                             label="Katalog"
@@ -269,16 +258,12 @@ export default {
 
             product: {
                 title: "",
-                price: "",
                 category: "",
-                status: true,
             },
             productEdit: {
                 _id: "",
                 title: "",
-                price: "",
                 category: "",
-                status: true,
             },
             rules: {
                 title: [
@@ -288,13 +273,7 @@ export default {
                         trigger: "blur",
                     },
                 ],
-                price: [
-                    {
-                        required: true,
-                        message: "To'ldirilishi shart",
-                        trigger: "blur",
-                    },
-                ],
+
                 category: [
                     {
                         required: true,
@@ -302,13 +281,6 @@ export default {
                         trigger: "change",
                     },
                 ],
-                // code: [
-                //     {
-                //         required: true,
-                //         message: "To'ldirilishi shart",
-                //         trigger: "blur",
-                //     },
-                // ],
             },
             rulesEdit: {
                 title: [
@@ -318,13 +290,7 @@ export default {
                         trigger: "blur",
                     },
                 ],
-                price: [
-                    {
-                        required: true,
-                        message: "To'ldirilishi shart",
-                        trigger: "blur",
-                    },
-                ],
+
                 category: [
                     {
                         required: true,
@@ -381,11 +347,8 @@ export default {
                     this.$axios
                         .post("product/add", this.product)
                         .then((res) => {
-                            console.log(res);
                             this.product.title = "";
                             this.product.category = "";
-                            this.product.price = "";
-                            this.product.status = true;
 
                             this.getData();
                             this.$message({
@@ -393,7 +356,7 @@ export default {
                                 type: "success",
                                 showClose: true,
                             });
-
+                            this.$refs[formName].resetFields();
                             this.dialogFormVisible = false;
                         })
                         .catch((err) => {

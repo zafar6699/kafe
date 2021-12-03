@@ -41,6 +41,16 @@ const routes = [{
                 },
             },
             {
+                path: "products/come/:id",
+                name: "products-come-id",
+                component: function() {
+                    return import (
+                        /* webpackChunkName: "about" */
+                        "@/pages/products/come.vue"
+                    );
+                },
+            },
+            {
                 path: "rooms",
                 name: "rooms",
                 component: function() {
