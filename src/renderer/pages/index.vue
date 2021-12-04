@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="dashboard">
+        <div class="dashboard" v-if="orders != null">
             <el-card class="box-card">
                 <div class="title-box-top">
                     <div class="title-top-left">
@@ -10,23 +10,11 @@
 
                 <div class="order-box">
                     <el-row :gutter="20">
-                        <el-col :span="6"
-                            ><div><OrderCard /></div
-                        ></el-col>
-                        <el-col :span="6"
-                            ><div><OrderCard /></div
-                        ></el-col>
-                        <el-col :span="6"
-                            ><div><OrderCard /></div
-                        ></el-col>
-                        <el-col :span="6"
-                            ><div><OrderCard /></div
-                        ></el-col>
-                        <el-col :span="6"
-                            ><div><OrderCard /></div
-                        ></el-col>
-                        <el-col :span="6"
-                            ><div><OrderCard /></div
+                        <el-col
+                            :span="6"
+                            v-for="(item, index) in orders"
+                            :key="index"
+                            ><div><OrderCard :order="item" /></div
                         ></el-col>
                     </el-row>
                 </div>
@@ -44,7 +32,7 @@ export default {
     },
     data() {
         return {
-            dashboard: null,
+            orders: null,
             viewProducts: null,
             page: 1,
             limit: 10,
@@ -53,8 +41,8 @@ export default {
     },
 
     async mounted() {
-        let dashboard = await this.$axios.get("dashboard/all");
-        this.dashboard = dashboard.data;
+        let orders = await this.$axios.get("order/kassa/now");
+        this.orders = orders.data.data;
     },
     methods: {
         changePagination() {},

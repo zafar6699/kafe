@@ -334,10 +334,7 @@ export default {
             this.$refs[formName].resetFields();
         },
 
-        handleEdit(index, row) {
-            console.log("index -> ", index);
-            console.log("row -> ", row);
-        },
+        handleEdit(index, row) {},
         openEdit(id) {
             console.log(id);
         },

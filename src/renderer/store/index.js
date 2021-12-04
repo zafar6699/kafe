@@ -27,7 +27,7 @@ const store = new Vuex.Store({
             let phone = user.login.replace(/[^0-9]/g, "");
 
             await axios
-                .post("http://localhost:4040/api/auth/login", {
+                .post("http://localhost/api/auth/login", {
                     login: phone,
                     password: user.password,
                 })
@@ -37,7 +37,7 @@ const store = new Vuex.Store({
                     localStorage.setItem("token", res.data.data);
                     await axios({
                         method: "GET",
-                        url: "http://localhost:4040/api/auth/me",
+                        url: "http://localhost/api/auth/me",
                         headers: {
                             Authorization: `Bearer ${localStorage.getItem(
                                 "token"
